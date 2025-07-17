@@ -179,6 +179,7 @@
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .download-button::before {
@@ -210,6 +211,191 @@
             font-size: 0.9rem;
             color: var(--text-light);
             margin-top: 20px;
+        }
+
+        /* Installation Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: var(--bg);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border);
+        }
+
+        .popup-overlay.show .popup-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .popup-close:hover {
+            background: var(--border);
+            color: var(--text);
+            transform: scale(1.1);
+        }
+
+        .popup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .popup-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .popup-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .installation-experience {
+            margin-bottom: 30px;
+        }
+
+        .experience-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .experience-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .experience-icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        .experience-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .experience-steps li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .experience-steps li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .daily-usage {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .daily-usage .experience-title {
+            color: white;
+        }
+
+        .daily-usage .experience-steps li {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .daily-usage .experience-steps li::before {
+            color: white;
+        }
+
+        .popup-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .popup-footer p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .continue-download {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .continue-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
         }
 
         /* Features */
@@ -430,10 +616,69 @@
             .steps {
                 grid-template-columns: 1fr;
             }
+
+            .popup-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .popup-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Installation Popup -->
+    <div class="popup-overlay" id="installationPopup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            
+            <div class="popup-header">
+                <h2 class="popup-title">🚀 Welcome to Lowki!</h2>
+                <p class="popup-subtitle">Here's what to expect during your first installation</p>
+            </div>
+
+            <div class="installation-experience">
+                <div class="experience-section">
+                    <div class="experience-title">
+                        <span class="experience-icon">🔧</span>
+                        Installation Experience
+                    </div>
+                    <ul class="experience-steps">
+                        <li>"App can't be opened" dialog - Standard macOS security</li>
+                        <li>Right-click → Open - Required for unsigned apps</li>
+                        <li>Security dialog - "Are you sure you want to open this?"</li>
+                        <li>Click "Open" - App launches successfully</li>
+                        <li>Permissions request - Accessibility permissions needed</li>
+                        <li>System Preferences - User adds Lowki to Accessibility</li>
+                        <li>App ready to use!</li>
+                    </ul>
+                </div>
+
+                <div class="daily-usage">
+                    <div class="experience-title">
+                        <span class="experience-icon">🚀</span>
+                        Daily Usage Experience
+                    </div>
+                    <ul class="experience-steps">
+                        <li>Tray icon appears - Ghost icon in menu bar</li>
+                        <li>Select text anywhere - Safari, Messages, Mail, etc.</li>
+                        <li>Press Cmd+Shift+G - Overlay appears instantly</li>
+                        <li>Get AI suggestions - Professional, friendly, helpful tones</li>
+                        <li>Click to apply - Text gets replaced automatically</li>
+                        <li>Continue working - No app switching needed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="popup-footer">
+                <p>Ready to get started? Your download will begin automatically!</p>
+                <a href="#" class="continue-download" id="continueDownload">Continue Download</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <div class="container">
@@ -455,12 +700,12 @@
             <p class="download-subtitle">Choose the version that fits your Mac perfectly</p>
             
             <div class="download-buttons">
-                <a href="https://github.com/novidjaff/lowki-landing/releases/download/v1.0.0/Lowki-1.0.0-arm64.dmg" class="download-button">
+                <a href="downloads/Lowki-1.0.0-arm64.dmg" class="download-button" data-download-url="downloads/Lowki-1.0.0-arm64.dmg">
                     <span class="download-icon">📦</span>
                     Apple Silicon (M1/M2/M3)
                 </a>
                 
-                <a href="https://github.com/novidjaff/lowki-landing/releases/download/v1.0.0/Lowki-1.0.0-mac.zip" class="download-button">
+                <a href="downloads/Lowki-1.0.0-mac.zip" class="download-button" data-download-url="downloads/Lowki-1.0.0-mac.zip">
                     <span class="download-icon">📦</span>
                     Intel Mac
                 </a>
@@ -631,5 +876,57 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let currentDownloadUrl = '';
+
+        // Add click event listeners to download buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadButtons = document.querySelectorAll('.download-button');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentDownloadUrl = this.getAttribute('data-download-url');
+                    showPopup();
+                });
+            });
+        });
+
+        function showPopup() {
+            const popup = document.getElementById('installationPopup');
+            popup.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('installationPopup');
+            popup.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Continue download button functionality
+        document.getElementById('continueDownload').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentDownloadUrl) {
+                window.location.href = currentDownloadUrl;
+            }
+            closePopup();
+        });
+
+        // Close popup when clicking outside
+        document.getElementById('installationPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+    </script>
 </body>
 </html> 
