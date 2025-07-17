@@ -674,7 +674,10 @@
 
             <div class="popup-footer">
                 <p>Ready to get started? Your download will begin automatically!</p>
-                <a href="#" class="continue-download" id="continueDownload">Continue Download</a>
+                <a href="#" class="continue-download" id="continueDownload">Start Download & Keep Instructions Open</a>
+                <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-light);">
+                    💡 Keep this window open while you install. Close it when you're done!
+                </p>
             </div>
         </div>
     </div>
@@ -927,7 +930,8 @@
                     window.open(currentDownloadUrl, '_blank');
                 }
             }
-            closePopup();
+            // Don't close popup - keep it open for reference
+            // closePopup();
         });
 
         // Close popup when clicking outside
