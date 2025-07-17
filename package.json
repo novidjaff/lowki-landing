@@ -1,0 +1,12 @@
+{
+  "name": "lowki-landing",
+  "version": "1.0.0",
+  "description": "Lowki AI Assistant Landing Page",
+  "scripts": {
+    "build": "echo 'Static site - no build required'",
+    "start": "python3 server.py"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
