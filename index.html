@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lowki - AI Ghost Assistant for macOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #06b6d4;
+            --accent: #6366f1;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 0 60px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border-radius: 20px;
+            margin-right: 15px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 60px;
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-radius: 25px 25px 15px 15px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: #4f46e5;
+            border-radius: 50%;
+            box-shadow: 12px 0 0 #4f46e5, -12px 0 0 #4f46e5;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Download Section */
+        .download-section {
+            background: var(--bg);
+            border-radius: 24px;
+            padding: 60px 40px;
+            margin: -30px 20px 60px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .download-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .download-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-button:hover::before {
+            left: 100%;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .download-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .version-info {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 20px;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            color: var(--text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--bg);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .step-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Installation */
+        .installation {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+
+        .installation-steps {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .installation-steps ol {
+            text-align: left;
+            counter-reset: step-counter;
+        }
+
+        .installation-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .installation-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--text);
+            color: white;
+        }
+
+        .footer-content {
+            opacity: 0.8;
+        }
+
+        .social-links {
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon"></span>
+                Lowki
+            </div>
+            <div class="tagline">AI access without leaving your app.</div>
+            <div class="subtitle">
+                Highlight any text, press Cmd+Shift+L, and get GPT-4 suggestions with seamless integration.
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <div class="container">
+        <div class="download-section">
+            <h2 class="download-title">Download Lowki</h2>
+            <p class="download-subtitle">Choose the version that fits your Mac perfectly</p>
+            
+            <div class="download-buttons">
+                <a href="downloads/Lowki-1.0.0-arm64.dmg" class="download-button">
+                    <span class="download-icon">📦</span>
+                    Apple Silicon (M1/M2/M3)
+                </a>
+                
+                <a href="downloads/Lowki-1.0.0-mac.zip" class="download-button">
+                    <span class="download-icon">📦</span>
+                    Intel Mac
+                </a>
+            </div>
+            
+            <div class="version-info">
+                Version 1.0.0 • macOS 11.0+ • 112MB
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+        <div class="container">
+            <h2 class="section-title">Seamless AI Integration</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Seamless Integration</div>
+                    <div class="feature-description">
+                        Access AI without leaving your app. Highlight text, press Cmd+Shift+L, and get suggestions instantly - no switching required.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-title">Pure AI Intelligence</div>
+                    <div class="feature-description">
+                        Get genuinely smart suggestions, not robotic grammar fixes. Powered by GPT-4 with zero templates or fallbacks.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Context-Aware Tone</div>
+                    <div class="feature-description">
+                        Suggestions that match your situation, not generic advice. Knows if you're writing emails, messages, or responses.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Native macOS Experience</div>
+                    <div class="feature-description">
+                        Feels like it's always been there. Native integration that respects your workflow, not a web app bolted on.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">Privacy First</div>
+                    <div class="feature-description">
+                        Your words stay private. Nothing gets saved on your computer, and we don't spy on what you write.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-title">Works Everywhere</div>
+                    <div class="feature-description">
+                        Safari, Chrome, Messages, Mail, Notes - wherever you type, Lowki is there to help. No setup needed!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How Lowki Works</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Pick Your Words</div>
+                    <div class="step-description">
+                        Highlight any text you want to improve - like a message, email, or note
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Summon Lowki</div>
+                    <div class="step-description">
+                        Press Cmd+Shift+L or click the ghost icon in your menu bar
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Get Smart Ideas</div>
+                    <div class="step-description">
+                        Choose from professional, friendly, helpful, or other styles that fit your needs
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Make It Better</div>
+                    <div class="step-description">
+                        Click "Replace" and watch your text transform into something amazing!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Proof -->
+    <div class="installation">
+        <div class="container">
+            <h2 class="section-title">What Users Are Saying</h2>
+            
+            <div class="installation-steps">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
+                        "Lowki feels like it was built into macOS itself. No more switching between apps just to access AI."
+                    </p>
+                    <p style="font-weight: 600; color: var(--text);">— Sarah Chen, Content Director</p>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
+                        "I've tried every AI tool. Lowki is the first one that doesn't interrupt my workflow."
+                    </p>
+                    <p style="font-weight: 600; color: var(--text);">— Marcus Rodriguez, Technical Writer</p>
+                </div>
+                
+                <div style="text-align: center;">
+                    <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
+                        "Finally, seamless AI access that keeps up with my thoughts instead of slowing me down."
+                    </p>
+                    <p style="font-weight: 600; color: var(--text);">— Alex Kim, Startup Founder</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Installation -->
+    <div class="features">
+        <div class="container">
+            <h2 class="section-title">Getting Started is Easy</h2>
+            
+            <div class="installation-steps">
+                <ol>
+                    <li>Download the file that matches your Mac (the big button above)</li>
+                    <li>Double-click the downloaded file to open it</li>
+                    <li>Drag the Lowki app to your Applications folder</li>
+                    <li>Right-click on Lowki in Applications and choose "Open" (first time only)</li>
+                    <li>Say "Yes" when your Mac asks for permissions</li>
+                    <li>Start using Cmd+Shift+L from any app!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Lowki. Made with ❤️ for macOS users.</p>
+                <div class="social-links">
+                    <a href="mailto:support@lowki.com">Support</a>
+                    <a href="https://github.com/yourusername/lowki">GitHub</a>
+                    <a href="privacy.html">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
