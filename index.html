@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lowki - AI Ghost Assistant for macOS</title>
+    <title>Lowki - AI Ghost Assistant for macOS & Windows</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -76,7 +76,8 @@
             display: inline-block;
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            background: url('./icon.png') no-repeat center center;
+            background-size: contain;
             border-radius: 20px;
             margin-right: 15px;
             position: relative;
@@ -85,29 +86,11 @@
         }
 
         .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 60px;
-            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-            border-radius: 25px 25px 15px 15px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            display: none;
         }
 
         .logo-icon::after {
-            content: '';
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 6px;
-            height: 6px;
-            background: #4f46e5;
-            border-radius: 50%;
-            box-shadow: 12px 0 0 #4f46e5, -12px 0 0 #4f46e5;
+            display: none;
         }
 
         @keyframes float {
@@ -641,10 +624,11 @@
             </div>
 
             <div class="installation-experience">
+                <!-- macOS Installation -->
                 <div class="experience-section">
                     <div class="experience-title">
-                        <span class="experience-icon">🔧</span>
-                        Installation Experience
+                        <span class="experience-icon">🍎</span>
+                        macOS Installation
                     </div>
                     <ul class="experience-steps">
                         <li>Input $0 to get it for Free and click Pay on Gumroad</li>
@@ -657,18 +641,36 @@
                     </ul>
                 </div>
 
+                <!-- Windows Installation -->
+                <div class="experience-section">
+                    <div class="experience-title">
+                        <span class="experience-icon">🪟</span>
+                        Windows Installation
+                    </div>
+                    <ul class="experience-steps">
+                        <li>Input $0 to get it for Free and click Pay on Gumroad</li>
+                        <li>Download the Windows installer (.exe file)</li>
+                        <li>Run the installer as Administrator (right-click → Run as Administrator)</li>
+                        <li>Follow the installation wizard and allow desktop shortcuts</li>
+                        <li>Launch Lowki from the desktop shortcut or Start menu</li>
+                        <li>The app will appear in the system tray (bottom-right corner)</li>
+                        <li>If Windows Defender blocks the app, click "More info" → "Run anyway"</li>
+                        <li>You're all set! Use Ctrl+Shift+L to toggle the overlay</li>
+                    </ul>
+                </div>
+
                 <div class="daily-usage">
                     <div class="experience-title">
                         <span class="experience-icon">🚀</span>
                         Daily Usage Experience
                     </div>
                     <ul class="experience-steps">
-                        <li>Highlight and copy text via shortcut keys and hit CMD+Shift+G</li>
-                        <li>Put prompt instructions if you have to but there are hot keys to select like Professional, Casual, etc.</li>
-                        <li>Choose from Professional, Empathetic, Solution, Casual, Concise, or Persuasive tones</li>
-                        <li>Click to apply - Text gets replaced automatically</li>
-                        <li>Continue working - No app switching needed</li>
-                        <li>Customize AI persona field as needed for personalized responses</li>
+                        <li><strong>Copy your text first:</strong> Select and copy (Cmd+C on Mac, Ctrl+C on Windows) the text you want to improve</li>
+                        <li><strong>Summon Lowki:</strong> Press Cmd+Shift+L (Mac) or Ctrl+Shift+L (Windows) to open the overlay</li>
+                        <li><strong>Type your prompt:</strong> Ask Lowki to improve, rewrite, or enhance your text</li>
+                        <li><strong>Choose your style:</strong> Select from Professional, Casual, Empathetic, or other tones</li>
+                        <li><strong>Apply the changes:</strong> Click to replace your text with the improved version</li>
+                        <li><strong>Continue working:</strong> No app switching needed - seamless integration!</li>
                     </ul>
                 </div>
             </div>
@@ -692,7 +694,7 @@
             </div>
             <div class="tagline">AI access without leaving your app.</div>
             <div class="subtitle">
-                Highlight any text, press Cmd+Shift+G, and get AI suggestions with seamless integration.
+                Highlight any text, press Cmd+Shift+L (Mac) or Ctrl+Shift+L (Windows), and get AI suggestions with seamless integration.
             </div>
         </div>
     </div>
@@ -701,7 +703,7 @@
     <div class="container">
         <div class="download-section">
             <h2 class="download-title">Download Lowki</h2>
-            <p class="download-subtitle">Choose the version that fits your Mac perfectly</p>
+            <p class="download-subtitle">Available for macOS and Windows</p>
             
             <div class="download-buttons">
                 <a href="https://projectapollo.gumroad.com/l/hodnx" class="download-button" target="_blank">
@@ -714,9 +716,24 @@
                 <a href="https://projectapollo.gumroad.com/l/hodnx" style="color: var(--primary); text-decoration: none;" target="_blank">Get it on Gumroad</a>
             </div>
             
-                            <div class="version-info">
-                    Version 1.0.2 • macOS 11.0+ • 115MB
+            <div class="version-info">
+                Version 1.1.0 • macOS 10.15+ & Windows 10+ • 120MB
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🍎</div>
+                    <div style="font-weight: 600; margin-bottom: 5px;">macOS</div>
+                    <div style="font-size: 0.9rem; color: var(--text-light);">Cmd+Shift+L shortcut</div>
+                    <div style="font-size: 0.9rem; color: var(--text-light);">Menu bar integration</div>
                 </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🪟</div>
+                    <div style="font-weight: 600; margin-bottom: 5px;">Windows</div>
+                    <div style="font-size: 0.9rem; color: var(--text-light);">Ctrl+Shift+L shortcut</div>
+                    <div style="font-size: 0.9rem; color: var(--text-light);">System tray integration</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -728,33 +745,33 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <div class="feature-title">Seamless Integration</div>
+                    <div class="feature-title">ChatGPT-Style Streaming</div>
                     <div class="feature-description">
-                        Access AI without leaving your app. Highlight text, press Cmd+Shift+G, and get suggestions instantly - no switching required.
+                        Watch AI responses type out in real-time with blinking cursor and "thinking" indicators. Authentic ChatGPT experience.
                     </div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🧠</div>
-                    <div class="feature-title">Pure AI Intelligence</div>
+                    <div class="feature-title">Smart Action Buttons</div>
                     <div class="feature-description">
-                        Get genuinely smart suggestions, not robotic grammar fixes. Powered by advanced AI with zero templates or fallbacks.
+                        Task, Summarize, Analyze, Rewrite, Reply, and Ask - each optimized for specific use cases with intelligent responses.
                     </div>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <div class="feature-title">Context-Aware Tone</div>
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title">Conversation History</div>
                     <div class="feature-description">
-                        Suggestions that match your situation, not generic advice. Knows if you're writing emails, messages, or responses.
+                        Maintain chat-like interactions with follow-up prompts. Continue refining and asking questions seamlessly.
                     </div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🎨</div>
-                    <div class="feature-title">Native macOS Experience</div>
+                    <div class="feature-title">Modern UI Design</div>
                     <div class="feature-description">
-                        Feels like it's always been there. Native integration that respects your workflow, not a web app bolted on.
+                        Clean, minimalist interface with glass-morphism effects. Optimized icons and responsive layout for the best experience.
                     </div>
                 </div>
 
@@ -768,9 +785,9 @@
 
                 <div class="feature-card">
                     <div class="feature-icon">✨</div>
-                    <div class="feature-title">Works Everywhere</div>
+                    <div class="feature-title">Cross-Platform Support</div>
                     <div class="feature-description">
-                        Safari, Chrome, Messages, Mail, Notes - wherever you type, Lowki is there to help. No setup needed!
+                        Works seamlessly on both macOS and Windows. System tray integration, global shortcuts, and native UI for each platform.
                     </div>
                 </div>
             </div>
@@ -785,9 +802,9 @@
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <div class="step-title">Pick Your Words</div>
+                    <div class="step-title">Copy Your Text</div>
                     <div class="step-description">
-                        Highlight any text you want to improve - like a message, email, or note
+                        Select and copy (Cmd+C on Mac, Ctrl+C on Windows) the text you want to improve
                     </div>
                 </div>
                 
@@ -795,7 +812,7 @@
                     <div class="step-number">2</div>
                     <div class="step-title">Summon Lowki</div>
                     <div class="step-description">
-                        Press Cmd+Shift+G or click the ghost icon in your menu bar
+                        Press Cmd+Shift+L (Mac) or Ctrl+Shift+L (Windows) to open the overlay
                     </div>
                 </div>
                 
@@ -826,21 +843,21 @@
             <div class="installation-steps">
                 <div style="text-align: center; margin-bottom: 40px;">
                     <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
-                        "Lowki feels like it was built into macOS itself. No more switching between apps just to access AI."
+                        "Lowki feels like it was built into the operating system itself. No more switching between apps just to access AI."
                     </p>
                     <p style="font-weight: 600; color: var(--text);">— Sarah Chen, Content Director</p>
                 </div>
                 
                 <div style="text-align: center; margin-bottom: 40px;">
                     <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
-                        "I've tried every AI tool. Lowki is the first one that doesn't interrupt my workflow."
+                        "I've tried every AI tool. Lowki is the first one that doesn't interrupt my workflow on both Mac and Windows."
                     </p>
                     <p style="font-weight: 600; color: var(--text);">— Marcus Rodriguez, Technical Writer</p>
                 </div>
                 
                 <div style="text-align: center;">
                     <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 20px;">
-                        "Finally, seamless AI access that keeps up with my thoughts instead of slowing me down."
+                        "Finally, seamless AI access that keeps up with my thoughts instead of slowing me down. Works perfectly on both platforms."
                     </p>
                     <p style="font-weight: 600; color: var(--text);">— Alex Kim, Startup Founder</p>
                 </div>
@@ -854,6 +871,7 @@
             <h2 class="section-title">Getting Started is Easy</h2>
             
             <div class="installation-steps">
+                <h3 style="margin-bottom: 20px; color: var(--primary);">🍎 macOS Installation</h3>
                 <ol>
                     <li>Input $0 to get it for Free and click Pay on Gumroad</li>
                     <li>Download and install, copy lowki.app to Applications folder if necessary</li>
@@ -863,6 +881,18 @@
                     <li>Scroll up in the same settings and look for accessibility and choose the "+" sign and add the lowki app</li>
                     <li>Allow all security changes once pop up and you are all set</li>
                 </ol>
+                
+                <h3 style="margin: 40px 0 20px; color: var(--primary);">🪟 Windows Installation</h3>
+                <ol>
+                    <li>Input $0 to get it for Free and click Pay on Gumroad</li>
+                    <li>Download the Windows installer (.exe file)</li>
+                    <li>Run the installer as Administrator (right-click → Run as Administrator)</li>
+                    <li>Follow the installation wizard and allow desktop shortcuts</li>
+                    <li>Launch Lowki from the desktop shortcut or Start menu</li>
+                    <li>The app will appear in the system tray (bottom-right corner)</li>
+                    <li>If Windows Defender blocks the app, click "More info" → "Run anyway"</li>
+                    <li>You're all set! Use Ctrl+Shift+L to toggle the overlay</li>
+                </ol>
             </div>
         </div>
     </div>
@@ -871,7 +901,7 @@
     <div class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2025 Lowki. Made with ❤️ for macOS users.</p>
+                <p>&copy; 2025 Lowki. Made with ❤️ for macOS and Windows users.</p>
                 <div class="social-links">
                     <a href="mailto:support@lowki.com">Support</a>
                     <a href="https://github.com/yourusername/lowki">GitHub</a>
